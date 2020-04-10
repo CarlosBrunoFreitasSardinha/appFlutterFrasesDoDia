@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-     _numeroAleatorio = new Random().nextInt(4);
+     _numeroAleatorio = new Random().nextInt(5);
     });
   }
 
