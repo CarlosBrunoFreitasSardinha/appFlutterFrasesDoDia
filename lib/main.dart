@@ -2,73 +2,108 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: MyHomePage(title: 'Frases do dia.'),
-    );
-  }
+void main(){
+  runApp(MaterialApp(
+    title: "Frases do Dia",
+    debugShowCheckedModeBanner: false,
+    home:HomeStateful()
+  ));
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
 
-  final String title;
-
+class HomeStateful extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeStatefulState createState() => _HomeStatefulState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeStatefulState extends State<HomeStateful> {
+  List<String> frases = [
+    "\"A persistência é o caminho do êxito.\" \n-Charles Chaplin",
+    "\"As pessoas costumam dizer que a motivação não dura sempre. Bem, nem o efeito do banho, por isso recomenda-se diariamente.\"\n-Zig Ziglar",
+    "\"No meio da dificuldade encontra-se a oportunidade.\"\n-Albert Einstein",
+    "\"É parte da cura o desejo de ser curado.\"\n-Sêneca",
+    "\"O que me preocupa não é o grito dos maus. É o silêncio dos bons.\"\n-Martin Luther King",
+    "\"Tudo o que um sonho precisa para ser realizado é alguém que acredite que ele possa ser realizado.\"\n-Roberto Shinyashiki",
+    "\"O insucesso é apenas uma oportunidade para recomeçar com mais inteligência.\"\n-Henry Ford",
+    "\"O sucesso é ir de fracasso em fracasso sem perder entusiasmo.\"\n-Winston Churchill",
+    "\"Experiência é o nome que cada um dá a seus erros.\"\n-Oscar Wilde",
+    "\"Lembre sempre que a sua vontade de triunfar é mais importante do que qualquer outra coisa.\"\n-Abraham Lincoln"];
 
-  int _numeroAleatorio = 0;
-  List _frases =[
-    '“Os problemas são oportunidades para se mostrar o que sabe.” (Duke Ellington)',
-    '“Nossos fracassos, às vezes, são mais frutíferos do que os êxitos.” (Henry Ford)',
-    '“Tente de novo. Fracasse de novo. Mas fracasse melhor”. (Samuel Beckett)',
-    '“É costume de um tolo, quando erra, queixar-se dos outros. É costume de um sábio queixar-se de si mesmo”. (Sócrates)',
-    '“O verdadeiro heroísmo consiste em persistir por mais um momento, quando tudo parece perdido”. (W. F. Grenfel)'];
+  int _indice = 0;
+  String _fraseGerada = "Clique abaixo para gerar uma frase!";
 
-  void _incrementCounter() {
+  void _fraseGerar(){
     setState(() {
-     _numeroAleatorio = new Random().nextInt(5);
+      _fraseGerada = frases[Random().nextInt(frases.length)];
     });
   }
-
   @override
   Widget build(BuildContext context) {
+    var _titulo = "Frases do Dia";
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.book),
+            );
+          },
+        ),
+        title: Text(
+          _titulo,
+          style: TextStyle(fontStyle: FontStyle.italic) ,
+        ),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: Center(
+
+      body:
+      Padding(
+        padding: EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Image.asset("images/logo.png"),
             Text(
-              'Pressione o botão para gerar uma Frase!\n',
-              style: Theme.of(context).textTheme.display1,
+              "${_fraseGerada}",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.blueGrey,
+                fontStyle: FontStyle.italic,
+              ),
             ),
-            Text(
-              _frases[_numeroAleatorio],
-              style: Theme.of(context).textTheme.title,
-            ),
+            RaisedButton(
+              child:
+                Text(
+                "Nova Frase",
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.lightGreen,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              onPressed: _fraseGerar,
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.teal,
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            children: <Widget>[
+              Text("@CarlosBrunoFreitasSardinha",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white60,
+                    fontWeight: FontWeight.bold
+                ),)
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
